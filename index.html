@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Zaki</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#050505;font-family:'Inter',sans-serif;display:flex;justify-content:center;min-height:100dvh;color:#fff}
+.chat{position:relative;width:100%;max-width:430px;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;
+background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),#000}
+.chat:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.38),transparent 50%),rgba(0,0,0,.25);pointer-events:none}
+.chat>*{position:relative;z-index:1}
+@media(min-width:480px){.chat{height:100dvh;border-left:1px solid rgba(255,150,50,.25);border-right:1px solid rgba(255,150,50,.25);box-shadow:0 0 80px rgba(255,110,0,.18)}}
+
+.head{margin:28px 18px 0;padding:16px 18px;display:flex;align-items:center;gap:15px;
+background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
+backdrop-filter:blur(28px) saturate(160%);border-radius:26px;border:1.2px solid rgba(255,170,90,.85);
+box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 28px rgba(255,120,20,.32)}
+.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000;flex-shrink:0;border:1px solid rgba(255,140,0,.5);box-shadow:0 0 24px rgba(255,120,0,.8),0 0 0 4px rgba(255,255,255,.06)}
+.info{flex:1}.info h1{font-size:26px;font-weight:600}.info .st{font-size:15px;margin-top:6px;color:#D8D8DE}.info .st b{color:#FF9B4A}
+
+/* СТЕКЛЯННЫЙ СКРОЛЛ - НЕ БЕЛЫЙ, А СТЕКЛО */
+#msgs{flex:1;overflow-y:auto;padding:42px 14px 14px 18px;display:flex;flex-direction:column;gap:24px;
+scrollbar-width:thin;scrollbar-color:rgba(255,170,90,.6) transparent}
+#msgs::-webkit-scrollbar{width:6px;display:block}
+#msgs::-webkit-scrollbar-track{background:transparent}
+#msgs::-webkit-scrollbar-thumb{
+background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.08));
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,170,90,.6);
+border-radius:100px;
+box-shadow:0 0 12px rgba(255,120,20,.35), inset 0 1px 0 rgba(255,255,255,.25);
+}
+#msgs::-webkit-scrollbar-thumb:hover{background:rgba(255,170,90,.45)}
+
+.row{display:flex;gap:12px;align-items:flex-start;max-width:88%}
+.mini{width:52px;height:52px;min-width:52px;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000;box-shadow:0 0 18px rgba(255,120,0,.65);border:1px solid rgba(255,140,0,.4)}
+.msg{padding:19px 20px;font-size:16.5px;line-height:1.55;border-radius:26px;word-break:break-word;
+background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
+backdrop-filter:blur(22px);border:1.2px solid rgba(255,170,90,.75);
+box-shadow:0 0 22px rgba(255,110,0,.22),inset 0 1px 0 rgba(255,255,255,.22)}
+.msg a{color:#FFB26B;word-break:break-all}
+.msg.user{align-self:flex-end;margin-left:auto;background:linear-gradient(135deg,rgba(50,50,55,.6),rgba(20,20,22,.6))}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:50px}
+.bigWrap{width:118px;height:118px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FF9E45,rgba(255,255,255,.1));box-shadow:0 0 40px rgba(255,120,0,.5)}
+.bigWrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000}
+.empty h2{font-size:27px;font-weight:600;margin-top:22px}
+.empty p{font-size:14.5px;color:#A8A8B0;margin-top:8px;line-height:1.6}
+.glassHint{margin-top:18px;padding:10px 16px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.4);backdrop-filter:blur(12px);font-size:13px}
+.bottom{padding:12px 18px 26px}
+.inputWrap{display:flex;align-items:center;gap:12px;padding:6px 6px 6px 22px;border-radius:100px;
+background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(255,255,255,.04));
+backdrop-filter:blur(24px);border:1.2px solid rgba(255,170,90,.75);box-shadow:0 0 24px rgba(255,110,0,.22)}
+.inputWrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16.5px;padding:15px 0;min-width:0}
+.inputWrap input::placeholder{color:#9A9AA3}
+.send{width:52px;height:52px;min-width:52px;border-radius:50%;background:linear-gradient(135deg,#FF9A35,#FF6A00);border:none;color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 22px rgba(255,106,0,.55)}
+.chips{display:flex;gap:8px;padding:0 18px 12px;flex-wrap:wrap}
+.chips span{font-size:13px;padding:10px 14px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.45);backdrop-filter:blur(12px);cursor:pointer}
+</style>
+</head>
+<body>
+<div class="chat">
+  <div class="head">
+    <img class="avatar" src="zaki.jpg">
+    <div class="info"><h1>Zaki</h1><div class="st"><b>В сети</b> • Активен сейчас</div></div>
+  </div>
+
+  <div id="msgs">
+    <div class="empty" id="empty">
+      <div class="bigWrap"><img src="zaki.jpg"></div>
+      <h2>Привет, я Zaki</h2>
+      <p>Чем помочь?<br>Стекло, скорость, приватность</p>
+      <div class="glassHint">✨ Напиши ниже — я на связи</div>
+    </div>
+  </div>
+
+  <div class="chips">
+    <span onclick="quick('Как скачать приложение?')">📲 Скачать приложение</span>
+    <span onclick="quick('Тарифы?')">💳 Тарифы</span>
+  </div>
+
+  <div class="bottom">
+    <div class="inputWrap">
+      <input id="inp" placeholder="Написать Zaki..." autocomplete="off">
+      <button class="send" onclick="askZaki()">➤</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const GROQ_KEY="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";
+const APK="https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk";
+const TG="https://t.me/HS1family";
+function quick(t){document.getElementById('inp').value=t;askZaki();}
+function fallback(q){
+  var s=q.toLowerCase();
+  if(s.includes('скачать')) return "📲 Скачать HS1 VPN:<br><a href='"+APK+"'>Скачать приложение</a>";
+  if(s.includes('тариф')||s.includes('оплат')) return "💳 Оплата — ТОЛЬКО В ПРИЛОЖЕНИИ!<br><a href='"+APK+"'>Открыть приложение</a>";
+  return "Я Zaki! 📲 <a href='"+APK+"'>Скачать</a> 💬 <a href='"+TG+"'>Админ</a>";
+}
+async function askZaki(){
+  var inp=document.getElementById('inp');var v=inp.value.trim();if(!v)return;
+  var box=document.getElementById('msgs');
+  var emp=document.getElementById('empty');if(emp) emp.remove();
+  box.innerHTML+='<div class="msg user">'+v.replace(/</g,"&lt;")+'</div>';inp.value='';
+  box.innerHTML+='<div class="row" id="typing"><img class="mini" src="zaki.jpg"><div class="msg">...</div></div>';
+  box.scrollTop=box.scrollHeight;
+  try{
+    var r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+GROQ_KEY},body:JSON.stringify({model:"llama-3.1-8b-instant",messages:[{role:"system",content:"Ты ZAKI, только на русском. ОПЛАТА ТОЛЬКО В ПРИЛОЖЕНИИ "+APK},{role:"user",content:v}]})});
+    var d=await r.json();document.getElementById('typing').remove();
+    var txt=d.choices[0].message.content.replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,'<a href="'+APK+'">Скачать приложение</a>');
+    box.innerHTML+='<div class="row"><img class="mini" src="zaki.jpg"><div class="msg">'+txt+'</div></div>';
+  }catch(e){var t=document.getElementById('typing');if(t)t.remove();box.innerHTML+='<div class="row"><img class="mini" src="zaki.jpg"><div class="msg">'+fallback(v)+'</div></div>';}
+  box.scrollTop=box.scrollHeight;
+}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')askZaki();});
+</script>
+</body>
+</html>
