@@ -2,175 +2,140 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Zaki</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zaki - HS1VPN</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#050505;font-family:'Inter',sans-serif;display:flex;justify-content:center;min-height:100dvh;color:#fff}
-.chat{position:relative;width:100%;max-width:430px;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;
-background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),#000}
-.chat:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.38),transparent 50%),rgba(0,0,0,.25);pointer-events:none}
-.chat>*{position:relative;z-index:1}
-@media(min-width:480px){.chat{height:100dvh;border-left:1px solid rgba(255,150,50,.25);border-right:1px solid rgba(255,150,50,.25);box-shadow:0 0 80px rgba(255,110,0,.18)}}
-
-.head{margin:28px 18px 0;padding:16px 18px;display:flex;align-items:center;gap:15px;
-background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
-backdrop-filter:blur(28px) saturate(160%);border-radius:26px;border:1.2px solid rgba(255,170,90,.85);
-box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 28px rgba(255,120,20,.32)}
-.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000;flex-shrink:0;border:1px solid rgba(255,140,0,.5);box-shadow:0 0 24px rgba(255,120,0,.8),0 0 0 4px rgba(255,255,255,.06)}
-.info{flex:1}.info h1{font-size:26px;font-weight:600}.info .st{font-size:15px;margin-top:6px;color:#D8D8DE}.info .st b{color:#FF9B4A}
-
-/* СТЕКЛЯННЫЙ СКРОЛЛ - НЕ БЕЛЫЙ, А СТЕКЛО */
-#msgs{flex:1;overflow-y:auto;padding:42px 14px 14px 18px;display:flex;flex-direction:column;gap:24px;
-scrollbar-width:thin;scrollbar-color:rgba(255,170,90,.6) transparent}
-#msgs::-webkit-scrollbar{width:6px;display:block}
-#msgs::-webkit-scrollbar-track{background:transparent}
-#msgs::-webkit-scrollbar-thumb{
-background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.08));
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,170,90,.6);
-border-radius:100px;
-box-shadow:0 0 12px rgba(255,120,20,.35), inset 0 1px 0 rgba(255,255,255,.25);
-}
-#msgs::-webkit-scrollbar-thumb:hover{background:rgba(255,170,90,.45)}
-
-.row{display:flex;gap:12px;align-items:flex-start;max-width:88%}
-.mini{width:52px;height:52px;min-width:52px;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000;box-shadow:0 0 18px rgba(255,120,0,.65);border:1px solid rgba(255,140,0,.4)}
-.msg{padding:19px 20px;font-size:16.5px;line-height:1.55;border-radius:26px;word-break:break-word;
-background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
-backdrop-filter:blur(22px);border:1.2px solid rgba(255,170,90,.75);
-box-shadow:0 0 22px rgba(255,110,0,.22),inset 0 1px 0 rgba(255,255,255,.22)}
-.msg a{color:#FFB26B;word-break:break-all}
-.msg.user{align-self:flex-end;margin-left:auto;background:linear-gradient(135deg,rgba(50,50,55,.6),rgba(20,20,22,.6))}
-.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:50px}
-.bigWrap{width:118px;height:118px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FF9E45,rgba(255,255,255,.1));box-shadow:0 0 40px rgba(255,120,0,.5)}
-.bigWrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000}
-.empty h2{font-size:27px;font-weight:600;margin-top:22px}
-.empty p{font-size:14.5px;color:#A8A8B0;margin-top:8px;line-height:1.6}
-.glassHint{margin-top:18px;padding:10px 16px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.4);backdrop-filter:blur(12px);font-size:13px}
-.bottom{padding:12px 18px 26px}
-.inputWrap{display:flex;align-items:center;gap:12px;padding:6px 6px 6px 22px;border-radius:100px;
-background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(255,255,255,.04));
-backdrop-filter:blur(24px);border:1.2px solid rgba(255,170,90,.75);box-shadow:0 0 24px rgba(255,110,0,.22)}
-.inputWrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16.5px;padding:15px 0;min-width:0}
-.inputWrap input::placeholder{color:#9A9AA3}
-.send{width:52px;height:52px;min-width:52px;border-radius:50%;background:linear-gradient(135deg,#FF9A35,#FF6A00);border:none;color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 22px rgba(255,106,0,.55)}
-.chips{display:flex;gap:8px;padding:0 18px 12px;flex-wrap:wrap}
-.chips span{font-size:13px;padding:10px 14px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.45);backdrop-filter:blur(12px);cursor:pointer}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:#0f0f0f;color:#fff;min-height:100vh;display:flex;justify-content:center}
+.wrap{width:100%;max-width:480px;min-height:100vh;background:linear-gradient(180deg,#1a1a1a,#0f0f0f);border:1px solid #ff8c00;position:relative;overflow:hidden}
+.wrap:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 20px,rgba(255,140,0,.05) 20px 21px);pointer-events:none}
+.top{margin:12px;border:1px solid #ff8c00;border-radius:18px;padding:10px 14px;display:flex;align-items:center;gap:12px;background:#2a2a2e;box-shadow:0 0 20px rgba(255,140,0,.4);position:relative;z-index:2}
+.avatar{width:56px;height:56px;border-radius:50%;background:#000;border:2px solid #ff8c00;overflow:hidden;flex-shrink:0}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.top b{font-size:28px;line-height:1}
+.online{color:#ffcc00;font-size:15px;font-weight:700;margin-top:4px}
+.center{text-align:center;padding:30px 16px 10px;position:relative;z-index:2}
+.big-avatar{width:140px;height:140px;margin:0 auto;border-radius:50%;border:3px solid #ff8c00;box-shadow:0 0 40px #ff8c00;overflow:hidden;background:#000}
+.big-avatar img{width:100%;height:100%;object-fit:cover}
+.center h1{font-size:36px;margin-top:18px}
+.center p{color:#ddd;margin-top:10px;line-height:1.4;font-size:16px}
+.pill{margin:16px auto 0;display:inline-block;border:1px solid #ff8c00;border-radius:20px;padding:10px 18px;background:#2a2a2e;font-size:14px;box-shadow:0 0 15px rgba(255,140,0,.3)}
+#chat{display:flex;flex-direction:column;gap:8px;padding:12px 16px;max-height:320px;overflow-y:auto;position:relative;z-index:2}
+.btns{display:flex;gap:10px;padding:10px 16px;position:relative;z-index:2}
+.btns button{flex:1;padding:12px 8px;border-radius:20px;border:1px solid #ff8c00;background:#2a2a2e;color:#fff;font-size:14px;cursor:pointer}
+.input-area{padding:8px 16px 20px;display:flex;gap:10px;position:relative;z-index:2}
+.input-area input{flex:1;padding:16px 18px;border-radius:25px;border:1px solid #ff8c00;background:#3a3a3a;color:#fff;font-size:16px;outline:none}
+.input-area button{width:56px;height:56px;border-radius:50%;border:none;background:#ffcc00;cursor:pointer;font-size:22px;box-shadow:0 0 20px #ff8c00}
 </style>
 </head>
 <body>
-<div class="chat">
-  <div class="head">
-    <img class="avatar" src="zaki.jpg">
-    <div class="info"><h1>Zaki</h1><div class="st"><b>В сети</b> • Активен сейчас</div></div>
+<div class="wrap">
+  <div class="top">
+    <div class="avatar"><img src="https://i.ibb.co/3yQqG8v/robot.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png'"></div>
+    <div><b>Zaki</b><div class="online">В сети • Активен сейчас</div></div>
   </div>
 
-  <div id="msgs">
-    <div class="empty" id="empty">
-      <div class="bigWrap"><img src="zaki.jpg"></div>
-      <h2>Привет, я Zaki</h2>
-      <p>Чем помочь?<br>Стекло, скорость, приватность</p>
-      <div class="glassHint">✨ Напиши ниже — я на связи</div>
-    </div>
+  <div class="center">
+    <div class="big-avatar"><img src="https://i.ibb.co/3yQqG8v/robot.jpg" onerror="this.src='https://cdn-icons-png.flaticon.com/512/4712/4712109.png'"></div>
+    <h1>Привет, я Zaki</h1>
+    <p>Чем помочь?<br>Скорость, приватность, безлимит</p>
+    <div class="pill">✨ Напиши ниже — я на связи</div>
   </div>
 
-  <div class="chips">
-    <span onclick="quick('Как скачать приложение?')">📲 Скачать приложение</span>
-    <span onclick="quick('Тарифы?')">💳 Тарифы</span>
+  <div id="chat"></div>
+
+  <div class="btns">
+    <button onclick="quick('скачать')">📲 Скачать приложение</button>
+    <button onclick="quick('тарифы')">💳 Тарифы</button>
   </div>
 
-  <div class="bottom">
-    <div class="inputWrap">
-      <input id="inp" placeholder="Написать Zaki..." autocomplete="off">
-      <button class="send" onclick="askZaki()">➤</button>
-    </div>
+  <div class="input-area">
+    <input id="inp" placeholder="Напиши Zaki...">
+    <button onclick="send()">➤</button>
   </div>
 </div>
+
 <script>
-const inp = document.querySelector('input');
+const inp = document.getElementById('inp');
 const chatBox = document.getElementById('chat');
 
+// ===== ВСЁ ПРО HS1VPN - ТВОЯ БАЗА =====
+const HS1VPN = `
+HS1VPN - быстрый VPN.
+Директор: @HS1family
+Канал: @HS1group
+Скачать Android: https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk
+Тарифы: 1 месяц 139 рублей, 3 месяца 399 рублей, 6 месяцев 699 рублей. Оплата ТОЛЬКО внутри приложения.
+5 ГБ БЕСПЛАТНО: скачать приложение, внизу справа кнопка АККАУНТ, нажать ЗАРЕГИСТРИРОВАТЬСЯ, ввести Email и придумать пароль - сразу дает 5ГБ бесплатно.
+Как купить: в приложении нажать купить, когда откроется окно оплаты там спросит Email, нужно ввести ТОТ ЖЕ Email который вводил при регистрации в начале, иначе подписка не придет.
+Если проблемы: писать директору @HS1family с чеком.
+`;
+
 function addMsg(text, who){
-  let d = document.createElement('div');
-  d.textContent = text;
-  d.style.cssText = who==='user' ? 'align-self:flex-end;background:#ff8c00;color:#000;max-width:85%;padding:12px 14px;border-radius:16px;margin:6px;' : 'align-self:flex-start;background:#2a2a35;border:1px solid #444;max-width:85%;padding:12px 14px;border-radius:16px;margin:6px;white-space:pre-wrap;line-height:1.5;';
-  chatBox.appendChild(d); chatBox.scrollTop = chatBox.scrollHeight;
+  let d=document.createElement('div');
+  d.textContent=text;
+  if(who==='user'){
+    d.style.cssText='align-self:flex-end;background:#ff8c00;color:#000;max-width:85%;padding:11px 14px;border-radius:16px;white-space:pre-wrap;';
+  }else{
+    d.style.cssText='align-self:flex-start;background:#2a2a35;border:1px solid #ff8c00;color:#fff;max-width:85%;padding:11px 14px;border-radius:16px;white-space:pre-wrap;line-height:1.5;';
+  }
+  chatBox.appendChild(d);
+  chatBox.scrollTop=chatBox.scrollHeight;
   return d;
 }
 
-// ======== HS1VPN - ПОЛНАЯ БАЗА ОТ ДИРЕКТОРА ========
-const HS1VPN = `
-HS1VPN - быстрый VPN. Сайт: hs1vpn.com, помощник: zaki.hs1vpn.com
-Директор: @HS1family
-Канал/Группа: @HS1group
-
-СКАЧАТЬ ПРИЛОЖЕНИЕ:
-- Android (прямая ссылка): https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk
-- Нажми на ссылку и установи APK. Если не ставится - разреши Неизвестные источники.
-
-ТАРИФЫ ТОЧНЫЕ:
-- 1 месяц = 139 рублей
-- 3 месяца = 399 рублей
-- 6 месяцев = 699 рублей
-- Оплата ТОЛЬКО внутри приложения, больше нигде!
-
-КАК ПОЛУЧИТЬ 5 ГБ БЕСПЛАТНО - САМОЕ ГЛАВНОЕ:
-1. Скачай приложение по ссылке выше
-2. Открой приложение
-3. Внизу справа нажми кнопку АККАУНТ
-4. Нажми ЗАРЕГИСТРИРОВАТЬСЯ
-5. Введи свой Email и придумай пароль
-6. Сразу получаешь 5 ГБ БЕСПЛАТНО!
-
-КАК КУПИТЬ ПОДПИСКУ:
-1. После регистрации нажми Купить в приложении
-2. Откроется окно оплаты - там спросит Email
-3. ВАЖНО: вводи ТОТ ЖЕ Email, который вводил при регистрации в начале!
-4. Если введешь другой Email - подписка не придет на твой аккаунт!
-5. Оплата только в приложении!
-
-ЕСЛИ ПРОБЛЕМЫ:
-- Не пришла подписка: проверь Email, он должен совпадать с регистрацией. Пиши директору @HS1family с чеком
-- Не устанавливается: Настройки > Безопасность > Неизвестные источники > Разрешить
-- Не подключается: поменяй сервер, включи авиарежим на 5 сек
-- Вопросы: директор @HS1family, канал @HS1group
-`;
-
-async function googleSearch(query){
+async function googleSearch(q){
   try{
-    let ddg = await fetch('https://api.duckduckgo.com/?q='+encodeURIComponent(query)+'&format=json&no_html=1').then(r=>r.json());
-    return ddg.AbstractText || "";
-  }catch(e){ return ""; }
+    let r=await fetch('https://api.duckduckgo.com/?q='+encodeURIComponent(q)+'&format=json&no_html=1').then(r=>r.json());
+    return r.AbstractText||"";
+  }catch(e){return "";}
 }
 
 async function send(){
-  let q = inp.value.trim(); if(!q) return;
-  addMsg(q,'user'); inp.value='';
-  let thinking = addMsg('Zaki думает...','bot');
-  let low = q.toLowerCase();
+  let q=inp.value.trim();
+  if(!q) return;
+  addMsg(q,'user');
+  inp.value='';
+  let thinking=addMsg('Zaki думает...','bot');
+  let low=q.toLowerCase();
 
-  // Быстрые кнопки - всегда точно
-  if(low.includes('скачать') || low.includes('apk') || low.includes('андроид')){
-    thinking.textContent = '📲 Скачать HS1VPN для Android:\n\nhttps://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk\n\nНажми и установи. Потом внизу справа АККАУНТ > Зарегистрироваться и получи 5 ГБ бесплатно!';
+  // БЫСТРЫЕ ОТВЕТЫ - ВСЕГДА ТОЧНО
+  if(low.includes('скачать')||low.includes('apk')||low.includes('приложение')||low.includes('андроид')){
+    thinking.textContent='📲 Скачать HS1VPN для Android:\nhttps://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk\n\nПотом: внизу справа АККАУНТ > Зарегистрироваться > Email + пароль = 5ГБ бесплатно!';
+    return;
+  }
+  if(low.includes('тариф')||low.includes('цен')||low.includes('139')||low.includes('399')||low.includes('699')){
+    thinking.textContent='💳 Тарифы HS1VPN:\n\n1 месяц - 139р\n3 месяца - 399р\n6 месяцев - 699р\n\nОплата только в приложении!\nДиректор: @HS1family\nКанал: @HS1group';
+    return;
+  }
+  if(low.includes('бесплатно')||low.includes('5 гб')||low.includes('5гб')||low.includes('регистр')){
+    thinking.textContent='🎁 5ГБ бесплатно - легко!\n\n1. Скачай: https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk\n2. Открой, внизу справа кнопка АККАУНТ\n3. Нажми Зарегистрироваться\n4. Введи Email и придумай пароль\nГотово, 5ГБ твои!';
+    return;
+  }
+  if(low.includes('оплат')||low.includes('купить')||low.includes('не приш')){
+    thinking.textContent='⚠️ ВАЖНО при оплате!\n\nВ окне оплаты вводи ТОТ ЖЕ Email, который вводил при регистрации в начале!\nЕсли другой Email - подписка не придет!\nОплата только в приложении.\nЕсли не пришло - пиши @HS1family с чеком.';
+    return;
+  }
+  if(low.includes('директор')||low.includes('контакт')||low.includes('поддерж')||low.includes('канал')){
+    thinking.textContent='👨‍💼 Директор: @HS1family\n📢 Канал: @HS1group\n\nПиши директору если не пришла подписка или вопросы по оплате!';
     return;
   }
 
+  // УМНЫЙ ОТВЕТ + ГУГЛ
   try{
-    let needSearch = low.includes('курс') || low.includes('погод') || low.includes('новост') || low.includes('сегодня');
+    let needSearch = low.includes('погод')||low.includes('курс')||low.includes('новост')||low.includes('сегодня');
     let searchInfo = needSearch ? await googleSearch(q) : "";
-
-    let system = "Ты Zaki - главный помощник HS1VPN. Отвечай коротко, по-братски, на русском/таджикском. Ты знаешь все про HS1VPN и всегда даешь ссылку на скачивание и контакты директора. Вот правда:\n" + HS1VPN + "\nИнфа из Google: " + searchInfo;
-
-    let res = await fetch('https://text.pollinations.ai/' + encodeURIComponent(system + "\nВопрос: " + q + "\nОтвет Zaki:"));
-    let ans = await res.text();
-    thinking.textContent = ans.trim();
+    let system="Ты Zaki, главный помощник HS1VPN. Отвечай коротко, по-братски, просто, на языке клиента. Знаешь все про HS1VPN:\n"+HS1VPN+"\nИнфа из Google: "+searchInfo;
+    let res=await fetch('https://text.pollinations.ai/'+encodeURIComponent(system+"\nВопрос: "+q+"\nОтвет Zaki:"));
+    let ans=await res.text();
+    thinking.textContent=ans.trim()||'Бро, повтори?';
   }catch(e){
-    thinking.textContent = 'Бро, связь тупит, попробуй ещё раз!';
+    thinking.textContent='Связь тупит, попробуй ещё раз! А по HS1VPN пиши @HS1family';
   }
 }
-window.ask = function(t){ inp.value=t; send(); }
+
+function quick(t){ inp.value=t; send(); }
 inp.addEventListener('keydown', e=>{ if(e.key==='Enter') send(); });
 </script>
-
+</body>
+</html>
