@@ -88,34 +88,89 @@ backdrop-filter:blur(24px);border:1.2px solid rgba(255,170,90,.75);box-shadow:0 
     </div>
   </div>
 </div>
-
 <script>
-const GROQ_KEY="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";
-const APK="https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk";
-const TG="https://t.me/HS1family";
-function quick(t){document.getElementById('inp').value=t;askZaki();}
-function fallback(q){
-  var s=q.toLowerCase();
-  if(s.includes('скачать')) return "📲 Скачать HS1 VPN:<br><a href='"+APK+"'>Скачать приложение</a>";
-  if(s.includes('тариф')||s.includes('оплат')) return "💳 Оплата — ТОЛЬКО В ПРИЛОЖЕНИИ!<br><a href='"+APK+"'>Открыть приложение</a>";
-  return "Я Zaki! 📲 <a href='"+APK+"'>Скачать</a> 💬 <a href='"+TG+"'>Админ</a>";
+const inp = document.querySelector('input');
+const chatBox = document.getElementById('chat');
+
+function addMsg(text, who){
+  let d = document.createElement('div');
+  d.textContent = text;
+  d.style.cssText = who==='user' ? 'align-self:flex-end;background:#ff8c00;color:#000;max-width:85%;padding:12px 14px;border-radius:16px;margin:6px;' : 'align-self:flex-start;background:#2a2a35;border:1px solid #444;max-width:85%;padding:12px 14px;border-radius:16px;margin:6px;white-space:pre-wrap;line-height:1.5;';
+  chatBox.appendChild(d); chatBox.scrollTop = chatBox.scrollHeight;
+  return d;
 }
-async function askZaki(){
-  var inp=document.getElementById('inp');var v=inp.value.trim();if(!v)return;
-  var box=document.getElementById('msgs');
-  var emp=document.getElementById('empty');if(emp) emp.remove();
-  box.innerHTML+='<div class="msg user">'+v.replace(/</g,"&lt;")+'</div>';inp.value='';
-  box.innerHTML+='<div class="row" id="typing"><img class="mini" src="zaki.jpg"><div class="msg">...</div></div>';
-  box.scrollTop=box.scrollHeight;
+
+// ======== HS1VPN - ПОЛНАЯ БАЗА ОТ ДИРЕКТОРА ========
+const HS1VPN = `
+HS1VPN - быстрый VPN. Сайт: hs1vpn.com, помощник: zaki.hs1vpn.com
+Директор: @HS1family
+Канал/Группа: @HS1group
+
+СКАЧАТЬ ПРИЛОЖЕНИЕ:
+- Android (прямая ссылка): https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk
+- Нажми на ссылку и установи APK. Если не ставится - разреши Неизвестные источники.
+
+ТАРИФЫ ТОЧНЫЕ:
+- 1 месяц = 139 рублей
+- 3 месяца = 399 рублей
+- 6 месяцев = 699 рублей
+- Оплата ТОЛЬКО внутри приложения, больше нигде!
+
+КАК ПОЛУЧИТЬ 5 ГБ БЕСПЛАТНО - САМОЕ ГЛАВНОЕ:
+1. Скачай приложение по ссылке выше
+2. Открой приложение
+3. Внизу справа нажми кнопку АККАУНТ
+4. Нажми ЗАРЕГИСТРИРОВАТЬСЯ
+5. Введи свой Email и придумай пароль
+6. Сразу получаешь 5 ГБ БЕСПЛАТНО!
+
+КАК КУПИТЬ ПОДПИСКУ:
+1. После регистрации нажми Купить в приложении
+2. Откроется окно оплаты - там спросит Email
+3. ВАЖНО: вводи ТОТ ЖЕ Email, который вводил при регистрации в начале!
+4. Если введешь другой Email - подписка не придет на твой аккаунт!
+5. Оплата только в приложении!
+
+ЕСЛИ ПРОБЛЕМЫ:
+- Не пришла подписка: проверь Email, он должен совпадать с регистрацией. Пиши директору @HS1family с чеком
+- Не устанавливается: Настройки > Безопасность > Неизвестные источники > Разрешить
+- Не подключается: поменяй сервер, включи авиарежим на 5 сек
+- Вопросы: директор @HS1family, канал @HS1group
+`;
+
+async function googleSearch(query){
   try{
-    var r=await fetch("https://api.groq.com/openai/v1/chat/completions",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+GROQ_KEY},body:JSON.stringify({model:"llama-3.1-8b-instant",messages:[{role:"system",content:"Ты ZAKI, только на русском. ОПЛАТА ТОЛЬКО В ПРИЛОЖЕНИИ "+APK},{role:"user",content:v}]})});
-    var d=await r.json();document.getElementById('typing').remove();
-    var txt=d.choices[0].message.content.replace(/\n/g,"<br>").replace(/https:\/\/[^\s<]+/g,'<a href="'+APK+'">Скачать приложение</a>');
-    box.innerHTML+='<div class="row"><img class="mini" src="zaki.jpg"><div class="msg">'+txt+'</div></div>';
-  }catch(e){var t=document.getElementById('typing');if(t)t.remove();box.innerHTML+='<div class="row"><img class="mini" src="zaki.jpg"><div class="msg">'+fallback(v)+'</div></div>';}
-  box.scrollTop=box.scrollHeight;
+    let ddg = await fetch('https://api.duckduckgo.com/?q='+encodeURIComponent(query)+'&format=json&no_html=1').then(r=>r.json());
+    return ddg.AbstractText || "";
+  }catch(e){ return ""; }
 }
-document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')askZaki();});
+
+async function send(){
+  let q = inp.value.trim(); if(!q) return;
+  addMsg(q,'user'); inp.value='';
+  let thinking = addMsg('Zaki думает...','bot');
+  let low = q.toLowerCase();
+
+  // Быстрые кнопки - всегда точно
+  if(low.includes('скачать') || low.includes('apk') || low.includes('андроид')){
+    thinking.textContent = '📲 Скачать HS1VPN для Android:\n\nhttps://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk\n\nНажми и установи. Потом внизу справа АККАУНТ > Зарегистрироваться и получи 5 ГБ бесплатно!';
+    return;
+  }
+
+  try{
+    let needSearch = low.includes('курс') || low.includes('погод') || low.includes('новост') || low.includes('сегодня');
+    let searchInfo = needSearch ? await googleSearch(q) : "";
+
+    let system = "Ты Zaki - главный помощник HS1VPN. Отвечай коротко, по-братски, на русском/таджикском. Ты знаешь все про HS1VPN и всегда даешь ссылку на скачивание и контакты директора. Вот правда:\n" + HS1VPN + "\nИнфа из Google: " + searchInfo;
+
+    let res = await fetch('https://text.pollinations.ai/' + encodeURIComponent(system + "\nВопрос: " + q + "\nОтвет Zaki:"));
+    let ans = await res.text();
+    thinking.textContent = ans.trim();
+  }catch(e){
+    thinking.textContent = 'Бро, связь тупит, попробуй ещё раз!';
+  }
+}
+window.ask = function(t){ inp.value=t; send(); }
+inp.addEventListener('keydown', e=>{ if(e.key==='Enter') send(); });
 </script>
-</body>
-</html>
+
