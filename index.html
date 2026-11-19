@@ -4,175 +4,342 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Zaki</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Great+Vibes&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#050505;font-family:'Inter',sans-serif;display:flex;justify-content:center;min-height:100dvh;color:#fff}
-.chat{position:relative;width:100%;max-width:430px;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;
-background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),#000}
-.chat:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.38),transparent 50%),rgba(0,0,0,.25);pointer-events:none}
+body{background:#050505;font-family:'Inter',sans-serif;display:flex;justify-content:center;min-height:100dvh;color:#fff;overflow:hidden}
+.chat{position:relative;width:100%;max-width:430px;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),#000}
+.chat:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.42),transparent 55%)}
 .chat>*{position:relative;z-index:1}
-@media(min-width:480px){.chat{height:100dvh;border-left:1px solid rgba(255,150,50,.25);border-right:1px solid rgba(255,150,50,.25);box-shadow:0 0 80px rgba(255,110,0,.18)}}
-
-.head{margin:28px 18px 0;padding:16px 18px;display:flex;align-items:center;gap:15px;
-background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));
-backdrop-filter:blur(28px) saturate(160%);border-radius:26px;border:1.2px solid rgba(255,170,90,.85);
-box-shadow:0 0 0 1px rgba(255,255,255,.12) inset,0 0 28px rgba(255,120,20,.32)}
-.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000;flex-shrink:0;border:1px solid rgba(255,140,0,.5);box-shadow:0 0 24px rgba(255,120,0,.8),0 0 0 4px rgba(255,255,255,.06)}
+.head{margin:28px 18px 0;padding:16px 18px;display:flex;align-items:center;gap:15px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));backdrop-filter:blur(28px);border-radius:26px;border:1.2px solid rgba(255,170,90,.85)}
+.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;background:#222;flex-shrink:0;border:1px solid rgba(255,140,0,.5);box-shadow:0 0 24px rgba(255,120,0,.8)}
 .info{flex:1}.info h1{font-size:26px;font-weight:600}.info .st{font-size:15px;margin-top:6px;color:#D8D8DE}.info .st b{color:#FF9B4A}
-
-/* СТЕКЛЯННЫЙ СКРОЛЛ - НЕ БЕЛЫЙ, А СТЕКЛО */
-#msgs{flex:1;overflow-y:auto;padding:42px 14px 14px 18px;display:flex;flex-direction:column;gap:24px;
-scrollbar-width:thin;scrollbar-color:rgba(255,170,90,.6) transparent}
-#msgs::-webkit-scrollbar{width:6px;display:block}
-#msgs::-webkit-scrollbar-track{background:transparent}
-#msgs::-webkit-scrollbar-thumb{
-background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.08));
-backdrop-filter:blur(10px);
-border:1px solid rgba(255,170,90,.6);
-border-radius:100px;
-box-shadow:0 0 12px rgba(255,120,20,.35), inset 0 1px 0 rgba(255,255,255,.25);
-}
-#msgs::-webkit-scrollbar-thumb:hover{background:rgba(255,170,90,.45)}
-
+#msgs{flex:1;overflow-y:auto;padding:42px 14px 14px 18px;display:flex;flex-direction:column;gap:24px}
 .row{display:flex;gap:12px;align-items:flex-start;max-width:88%}
-.mini{width:52px;height:52px;min-width:52px;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000;box-shadow:0 0 18px rgba(255,120,0,.65);border:1px solid rgba(255,140,0,.4)}
-.msg{padding:19px 20px;font-size:16.5px;line-height:1.55;border-radius:26px;word-break:break-word;
-background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));
-backdrop-filter:blur(22px);border:1.2px solid rgba(255,170,90,.75);
-box-shadow:0 0 22px rgba(255,110,0,.22),inset 0 1px 0 rgba(255,255,255,.22)}
-.msg a{color:#FFB26B;word-break:break-all}
-.msg.user{align-self:flex-end;margin-left:auto;background:linear-gradient(135deg,rgba(50,50,55,.6),rgba(20,20,22,.6))}
-.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:50px}
-.bigWrap{width:118px;height:118px;border-radius:50%;padding:3px;background:linear-gradient(135deg,#FF9E45,rgba(255,255,255,.1));box-shadow:0 0 40px rgba(255,120,0,.5)}
-.bigWrap img{width:100%;height:100%;border-radius:50%;object-fit:cover;object-position:center 12%;background:#000}
-.empty h2{font-size:27px;font-weight:600;margin-top:22px}
-.empty p{font-size:14.5px;color:#A8A8B0;margin-top:8px;line-height:1.6}
-.glassHint{margin-top:18px;padding:10px 16px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.4);backdrop-filter:blur(12px);font-size:13px}
+.mini{width:52px;height:52px;min-width:52px;border-radius:50%;object-fit:cover;background:#222;box-shadow:0 0 18px rgba(255,120,0,.65);border:1px solid rgba(255,140,0,.4)}
+.msg{padding:19px 20px;font-size:16.5px;line-height:1.55;border-radius:26px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));backdrop-filter:blur(22px);border:1.2px solid rgba(255,170,90,.75)}
+.msg.user{align-self:flex-end;margin-left:auto}
+.empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:10px}
+.blobStage{width:150px;height:150px;position:relative}
+.blob{width:118px;height:118px;position:absolute;top:16px;left:16px;background:transparent;border-radius:42% 58% 55% 45% / 48% 42% 58% 52%;animation:blobMorph 5s ease-in-out infinite;box-shadow:0 0 32px rgba(255,120,0,.45);border:1px solid rgba(255,140,0,.5);overflow:hidden}
+.blob img{width:100%;height:100%;object-fit:cover;display:block}
+@keyframes blobMorph{0%,100%{border-radius:42% 58% 55% 45% / 48% 42% 58% 52%}33%{border-radius:58% 42% 45% 55% / 52% 58% 42% 48%}66%{border-radius:48% 52% 60% 40% / 45% 55% 48% 52%}}
+.blobShadow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:14px;background:rgba(0,0,0,.5);border-radius:50%;filter:blur(8px)}
+.salam{font-family:'Great Vibes',cursive;font-size:32px;line-height:1;margin-top:14px;background:linear-gradient(135deg,#FFE8C2,#FF9A35,#FF6A00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;transform:rotate(-2deg)}
+.empty h2{font-size:27px;font-weight:600;margin-top:2px}
+.empty p{font-size:14.5px;color:#A8A8B0;margin-top:8px}
+.glassHint{margin-top:14px;padding:10px 16px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.4);font-size:13px;cursor:pointer}
 .bottom{padding:12px 18px 26px}
-.inputWrap{display:flex;align-items:center;gap:12px;padding:6px 6px 6px 22px;border-radius:100px;
-background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(255,255,255,.04));
-backdrop-filter:blur(24px);border:1.2px solid rgba(255,170,90,.75);box-shadow:0 0 24px rgba(255,110,0,.22)}
-.inputWrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16.5px;padding:15px 0;min-width:0}
-.inputWrap input::placeholder{color:#9A9AA3}
-.send{width:52px;height:52px;min-width:52px;border-radius:50%;background:linear-gradient(135deg,#FF9A35,#FF6A00);border:none;color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 8px 22px rgba(255,106,0,.55)}
+.inputWrap{display:flex;align-items:center;gap:12px;padding:6px 6px 6px 22px;border-radius:100px;background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(255,255,255,.04));border:1.2px solid rgba(255,170,90,.75)}
+.inputWrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16.5px;padding:15px 0}
+.send{width:52px;height:52px;min-width:52px;border-radius:50%;background:linear-gradient(135deg,#FF9A35,#FF6A00);border:none;color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer}
 .chips{display:flex;gap:8px;padding:0 18px 12px;flex-wrap:wrap}
-.chips span{font-size:13px;padding:10px 14px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.45);backdrop-filter:blur(12px);cursor:pointer}
+.chips span{font-size:13px;padding:10px 14px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.45);cursor:pointer}
+#flappyOverlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;background:#000}
+#flappyOverlay:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.45),transparent 55%)}
+#flappyOverlay>*{position:relative;z-index:1}
+#flappyOverlay.show{display:flex}
+.f-top{margin:20px 14px 0;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));backdrop-filter:blur(28px);border-radius:22px;border:1.2px solid rgba(255,170,90,.85)}
+.f-close{background:rgba(255,255,255,.1);border:1px solid rgba(255,170,90,.6);color:#fff;padding:8px 14px;border-radius:100px;cursor:pointer;font-size:13px}
+.soundBtn{background:rgba(255,170,90,.2);border:1px solid rgba(255,170,90,.6);color:#fff;padding:8px 12px;border-radius:100px;cursor:pointer;font-size:14px}
+.f-score{display:flex;gap:8px;padding:12px 14px}
+.f-box{flex:1;text-align:center;padding:11px 4px;border-radius:16px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));border:1.2px solid rgba(255,170,90,.6)}
+.f-box b{color:#FFB26B;font-size:22px;display:block;font-family:'Unbounded'}
+.f-box span{font-size:10px;color:#aaa;font-weight:700;letter-spacing:.8px}
+.f-stage{flex:1;margin:0 14px;border-radius:24px;border:1.2px solid rgba(255,170,90,.85);overflow:hidden;position:relative}
+#flappyCanvas{width:100%;height:100%;display:block;touch-action:none}
+.f-hud{position:absolute;top:14px;left:50%;transform:translateX(-50%);text-align:center;z-index:5;pointer-events:none}
+.f-bigScore{font-family:'Unbounded';font-size:56px;font-weight:800;color:#fff;text-shadow:0 0 24px rgba(255,120,0,.6),0 4px 0 rgba(0,0,0,.4);line-height:1}
+.f-promo{margin:10px 14px;padding:11px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px dashed rgba(255,170,90,.6);text-align:center;font-size:12.5px}
+.f-btns{padding:12px 14px 22px;display:flex;gap:8px}
+.f-big{flex:1.6;padding:17px;border-radius:20px;border:0;background:linear-gradient(180deg,#ffcf7a,#ff8a00);color:#000;font-weight:800;font-size:17px;cursor:pointer}
+.f-btn{flex:1;padding:17px;border-radius:20px;border:1.2px solid rgba(255,170,90,.75);background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));color:#fff;font-weight:700;cursor:pointer}
 </style>
 </head>
 <body>
 <div class="chat">
-  <div class="head">
-    <img class="avatar" src="zaki.jpg">
-    <div class="info"><h1>Zaki</h1><div class="st"><b>В сети</b> • Активен сейчас</div></div>
-  </div>
-
+  <div class="head"><img class="avatar" src="zaki.jpg" onerror="this.src='zaki.png'"><div class="info"><h1>Zaki</h1><div class="st"><b>В сети</b> • Активен сейчас</div></div></div>
   <div id="msgs">
     <div class="empty" id="empty">
-      <div class="bigWrap"><img src="zaki.jpg"></div>
-      <h2>Привет, я Zaki</h2>
+      <div class="blobStage"><div class="blob"><img src="zaki.jpg" onerror="this.src='zaki.png'"></div><div class="blobShadow"></div></div>
+      <div class="salam">Асалому алайкум</div>
+      <h2>я Zaki</h2>
       <p>Чем помочь?<br>Скорость, приватность</p>
-      <div class="glassHint">✨ Напиши ниже — я на связи</div>
+      <div class="glassHint" onclick="quick('Как скачать приложение?')">✨ Напиши ниже — я на связи</div>
+      <div onclick="openFlappy()" style="margin-top:12px;padding:14px 22px;border-radius:100px;background:linear-gradient(180deg,#ffcf7a,#ff8a00);color:#000;font-weight:800;cursor:pointer">🚀 FLAPPY ZAKI — 5GB! 🔊</div>
     </div>
   </div>
-
   <div class="chips">
     <span onclick="quick('Как скачать приложение?')">📲 Скачать приложение</span>
     <span onclick="quick('Тарифы?')">💳 Тарифы</span>
+    <span onclick="openFlappy()" style="background:linear-gradient(135deg,#FF9A35,#FF6A00);color:#000;font-weight:800">🚀 FLAPPY — ИГРАТЬ!</span>
   </div>
+  <div class="bottom"><div class="inputWrap"><input id="inp" placeholder="Написать Zaki..." autocomplete="off"><button class="send" onclick="askZaki()">➤</button></div></div>
 
-  <div class="bottom">
-    <div class="inputWrap">
-      <input id="inp" placeholder="Написать Zaki..." autocomplete="off">
-      <button class="send" onclick="askZaki()">➤</button>
+  <div id="flappyOverlay">
+    <div class="f-top"><button class="f-close" onclick="closeFlappy()">← Назад</button><b style="font-family:'Unbounded';font-size:13px">🚀 FLAPPY ZAKI</b><button class="soundBtn" id="soundBtn" onclick="toggleSound()">🔊 Звук</button></div>
+    <div class="f-score">
+      <div class="f-box"><span>СЧЕТ</span><b id="fScore">0</b></div>
+      <div class="f-box"><span>РЕКОРД</span><b id="fBest">0</b></div>
+      <div class="f-box"><span>5GB при</span><b>15</b></div>
     </div>
+    <div class="f-stage" id="fStage">
+      <canvas id="flappyCanvas"></canvas>
+      <div class="f-hud"><div class="f-bigScore" id="fBig">0</div></div>
+    </div>
+    <div class="f-promo" id="fPromo">15 врат = чек <b style="color:#FFB26B">HS1-5GB</b> • Звук включен 🔊</div>
+    <div class="f-btns"><button class="f-btn" onclick="resetFlappy()">↻</button><button class="f-big" id="flapBtn">🚀 ГАЗ! ЛЕТЕТЬ!</button></div>
   </div>
 </div>
-
 <script>
-// ===== ТВОЙ ДИЗАЙН НЕ ТРОГАЕМ - ТОЛЬКО НОВЫЙ УМНЫЙ МОЗГ =====
-const RENDER_URL = "https://hs1vpn-bot-1.onrender.com";
-
-const inp = document.getElementById('inp');
-const msgs = document.getElementById('msgs');
-const emptyDiv = document.getElementById('empty');
-
-function hideEmpty(){
-  if(emptyDiv) emptyDiv.style.display='none';
-}
-
-function addMsg(text, who){
+const RENDER_URL="https://hs1vpn-bot-1.onrender.com";
+const inp=document.getElementById('inp'), msgs=document.getElementById('msgs'), emptyDiv=document.getElementById('empty');
+function hideEmpty(){if(emptyDiv)emptyDiv.style.display='none'}
+function addMsg(t,w){
   hideEmpty();
-  if(who==='user'){
-    let div=document.createElement('div');
-    div.className='msg user';
-    div.textContent=text;
-    msgs.appendChild(div);
-  } else {
-    let row=document.createElement('div');
-    row.className='row';
-    row.innerHTML=`<img class="mini" src="zaki.jpg"><div class="msg"></div>`;
-    row.querySelector('.msg').textContent=text;
-    msgs.appendChild(row);
-    row.querySelector('.msg').innerHTML = text.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank">$1</a>');
-  }
+  if(w==='user'){let d=document.createElement('div');d.className='msg user';d.textContent=t;msgs.appendChild(d);}
+  else{let r=document.createElement('div');r.className='row';r.innerHTML=`<img class="mini" src="zaki.jpg" onerror="this.src='zaki.png'"><div class="msg"></div>`;r.querySelector('.msg').textContent=t;msgs.appendChild(r);r.querySelector('.msg').innerHTML=t.replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank">$1</a>');}
   msgs.scrollTop=msgs.scrollHeight;
-  // вернуть элемент для обновления текста
-  return msgs.lastElementChild.querySelector ? (msgs.lastElementChild.querySelector('.msg') || msgs.lastElementChild) : msgs.lastElementChild;
+}
+function addTyping(){hideEmpty();let r=document.createElement('div');r.className='row';r.innerHTML=`<img class="mini" src="zaki.jpg"><div class="msg"><div class="typing"><i></i><i></i><i></i></div></div>`;msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;return r;}
+async function askZaki(){let q=inp.value.trim();if(!q)return;addMsg(q,'user');inp.value='';let tr=addTyping();let low=q.toLowerCase();
+if(low.includes('скачать')){setTimeout(()=>{tr.remove();let b=addMsg('','bot');b.innerHTML='📲 Скачать HS1VPN:<br><br><a href="https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk" target="_blank">https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk</a>';},600);return;}
+if(low.includes('тариф')){setTimeout(()=>{tr.remove();addMsg('💳 Тарифы:\n1 мес - 139р\n3 мес - 399р\n6 мес - 699р\n@HS1family','bot');},500);return;}
+if(low.includes('флаппи')||low.includes('игра')){setTimeout(()=>{tr.remove();let b=addMsg('','bot');b.innerHTML='🚀 Флаппи тут! <button onclick="openFlappy()" style="background:#FF8A00;border:0;padding:10px 16px;border-radius:20px;font-weight:800;cursor:pointer">ИГРАТЬ!</button>';},400);return;}
+try{let r=await fetch(RENDER_URL+'/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({q})});let j=await r.json();tr.remove();addMsg(j.answer||'Бро, повтори?','bot');}catch(e){tr.remove();addMsg('Связь тупит, пиши @HS1family','bot');}msgs.scrollTop=msgs.scrollHeight;}
+function quick(t){inp.value=t;askZaki();}
+inp.addEventListener('keydown',e=>{if(e.key==='Enter')askZaki();});
+
+// === ЗВУКИ - БЕЗ ФАЙЛОВ, ЧИСТЫЙ WEB AUDIO ===
+let audioCtx=null, soundOn=true;
+function getAudio(){
+  if(!audioCtx) audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  return audioCtx;
+}
+function toggleSound(){
+  soundOn=!soundOn;
+  document.getElementById('soundBtn').innerText = soundOn ? '🔊 Звук' : '🔇 Без звука';
+  document.getElementById('fPromo').innerHTML = soundOn ? '15 врат = чек <b style="color:#FFB26B">HS1-5GB</b> • Звук включен 🔊' : '15 врат = чек <b style="color:#FFB26B">HS1-5GB</b> • Звук выключен 🔇';
+  if(soundOn) playScore();
+}
+function playFlap(){
+  if(!soundOn) return;
+  try{
+    let ctx=getAudio(), t=ctx.currentTime;
+    // шум газа - как ракета
+    let bufferSize=ctx.sampleRate*0.25;
+    let buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
+    let data=buffer.getChannelData(0);
+    for(let i=0;i<bufferSize;i++){ data[i]=(Math.random()*2-1)*Math.pow(1-i/bufferSize,2); }
+    let noise=ctx.createBufferSource(); noise.buffer=buffer;
+    let filter=ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.setValueAtTime(1800,t); filter.frequency.exponentialRampToValueAtTime(300,t+0.22);
+    let gain=ctx.createGain(); gain.gain.setValueAtTime(0.45,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.25);
+    noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination); noise.start(t);
+    // свист вверх
+    let osc=ctx.createOscillator(); osc.type='sine'; osc.frequency.setValueAtTime(350,t); osc.frequency.exponentialRampToValueAtTime(750,t+0.18);
+    let og=ctx.createGain(); og.gain.setValueAtTime(0.12,t); og.gain.exponentialRampToValueAtTime(0.001,t+0.2);
+    osc.connect(og); og.connect(ctx.destination); osc.start(t); osc.stop(t+0.2);
+  }catch(e){}
+}
+function playScore(){
+  if(!soundOn) return;
+  try{
+    let ctx=getAudio(), t=ctx.currentTime;
+    [880,1320].forEach((f,i)=>{
+      let osc=ctx.createOscillator(); osc.type='sine'; osc.frequency.value=f;
+      let g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t+i*0.07); g.gain.exponentialRampToValueAtTime(0.28,t+i*0.07+0.02); g.gain.exponentialRampToValueAtTime(0.001,t+i*0.07+0.18);
+      osc.connect(g); g.connect(ctx.destination); osc.start(t+i*0.07); osc.stop(t+i*0.07+0.2);
+    });
+    // монетка HS1
+    let o2=ctx.createOscillator(); o2.type='triangle'; o2.frequency.setValueAtTime(1760,t); o2.frequency.setValueAtTime(1760,t+0.12);
+    let g2=ctx.createGain(); g2.gain.setValueAtTime(0.12,t+0.08); g2.gain.exponentialRampToValueAtTime(0.001,t+0.22);
+    o2.connect(g2); g2.connect(ctx.destination); o2.start(t+0.08); o2.stop(t+0.24);
+  }catch(e){}
+}
+function playHit(){
+  if(!soundOn) return;
+  try{
+    let ctx=getAudio(), t=ctx.currentTime;
+    // БУМ
+    let osc=ctx.createOscillator(); osc.type='sawtooth'; osc.frequency.setValueAtTime(160,t); osc.frequency.exponentialRampToValueAtTime(40,t+0.35);
+    let g=ctx.createGain(); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+    osc.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t+0.4);
+    // шум взрыва
+    let bufferSize=ctx.sampleRate*0.4;
+    let buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
+    let data=buffer.getChannelData(0);
+    for(let i=0;i<bufferSize;i++){ data[i]=(Math.random()*2-1)*Math.pow(1-i/bufferSize,1.5); }
+    let noise=ctx.createBufferSource(); noise.buffer=buffer;
+    let filter=ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.value=800;
+    let ng=ctx.createGain(); ng.gain.setValueAtTime(0.4,t); ng.gain.exponentialRampToValueAtTime(0.001,t+0.4);
+    noise.connect(filter); filter.connect(ng); ng.connect(ctx.destination); noise.start(t);
+  }catch(e){}
+}
+function playWin(){
+  if(!soundOn) return;
+  try{
+    let ctx=getAudio(), t=ctx.currentTime;
+    let notes=[523,659,784,1046,784,1046,1318];
+    notes.forEach((f,i)=>{
+      let osc=ctx.createOscillator(); osc.type='triangle'; osc.frequency.value=f;
+      let g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t+i*0.12); g.gain.exponentialRampToValueAtTime(0.25,t+i*0.12+0.02); g.gain.exponentialRampToValueAtTime(0.001,t+i*0.12+0.35);
+      osc.connect(g); g.connect(ctx.destination); osc.start(t+i*0.12); osc.stop(t+i*0.12+0.4);
+    });
+  }catch(e){}
+}
+function playClick(){
+  if(!soundOn) return;
+  try{
+    let ctx=getAudio(), t=ctx.currentTime;
+    let osc=ctx.createOscillator(); osc.type='sine'; osc.frequency.value=1200;
+    let g=ctx.createGain(); g.gain.setValueAtTime(0.08,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.06);
+    osc.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t+0.06);
+  }catch(e){}
 }
 
-async function askZaki(){
-  let q = inp.value.trim();
-  if(!q) return;
-  addMsg(q,'user');
-  inp.value='';
-  let bubble = addMsg('Zaki думает...','bot');
-  let low = q.toLowerCase();
-
-  // БЫСТРЫЕ ТОЧНЫЕ ОТВЕТЫ ПРО HS1VPN - ЧТОБЫ НЕ ЖДАТЬ ИИ
-  if(low.includes('скачать') || low.includes('приложение') || low.includes('apk')){
-    bubble.innerHTML='📲 Скачать HS1VPN для Android:<br><br><a href="https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk" target="_blank">https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk</a><br><br>Потом: внизу справа АККАУНТ > Зарегистрироваться > Email + пароль = 5ГБ бесплатно!';
-    return;
+let fCanvas=document.getElementById('flappyCanvas'), fCtx=fCanvas.getContext('2d');
+let imgZaki=new Image(); imgZaki.src='zaki-run-side.png';
+let imgFallback=new Image(); imgFallback.src='zaki.jpg';
+imgZaki.onerror=()=>{ imgZaki.src='zaki.jpg'; };
+let W=0,H=0, birdY=0, birdV=0, birdX=0, gravity=0.42, jump=-8.6, gates=[], particles=[], score=0, best=parseInt(localStorage.getItem('zaki_flappy_best')||'0'), playing=false, started=false, frame=0, groundOffset=0, isDead=false, deadAlpha=1;
+function fResize(){let st=document.getElementById('fStage');let dpr=Math.min(2,window.devicePixelRatio||1);W=st.clientWidth;H=st.clientHeight;fCanvas.width=W*dpr;fCanvas.height=H*dpr;fCanvas.style.width=W+'px';fCanvas.style.height=H+'px';fCtx.setTransform(dpr,0,0,dpr,0,0);birdX=W*0.32;if(!started) birdY=H*0.45;}
+function openFlappy(){document.getElementById('flappyOverlay').classList.add('show');fResize();resetFlappy();document.getElementById('fBest').innerText=best;getAudio();playClick();}
+function closeFlappy(){document.getElementById('flappyOverlay').classList.remove('show');playing=false;}
+function resetFlappy(){birdY=H*0.42;birdV=0;gates=[];particles=[];score=0;started=false;playing=true;frame=0;isDead=false;deadAlpha=1;document.getElementById('fScore').innerText='0';document.getElementById('fBig').innerText='0';document.getElementById('fPromo').innerHTML='15 врат = чек <b style="color:#FFB26B">HS1-5GB</b> • Звук '+(soundOn?'включен 🔊':'выключен 🔇');}
+function makeCheck(s){let str=s+'|FLAPPY|HS1';let h=0;for(let i=0;i<str.length;i++){h=(h<<5)-h+str.charCodeAt(i);h|=0;}return 'ZAKI-FLAP-'+Math.abs(h).toString(36).toUpperCase()+'-'+s;}
+function getFeet(){return {x: birdX+1, y: birdY+44};}
+function flap(){
+  if(!playing) resetFlappy();
+  if(isDead) return;
+  started=true; birdV=jump;
+  playFlap();
+  let f=getFeet();
+  for(let i=0;i<22;i++){particles.push({x:f.x+(Math.random()-0.5)*12,y:f.y,vx:(Math.random()-0.5)*1.2,vy:2.5+Math.random()*4.5,life:1,size:6+Math.random()*13,type:Math.random()<0.65?'fire':'smoke'});}
+}
+document.getElementById('flapBtn').addEventListener('click',flap);
+document.getElementById('fStage').addEventListener('pointerdown',e=>{e.preventDefault();flap();});
+function addGate(){let gap=168,minH=70,maxH=H-250;let topH=minH+Math.random()*(maxH-minH);gates.push({x:W+20,top:topH,gap:gap,passed:false,w:56,pulse:Math.random()*Math.PI*2});}
+function drawFlappy(){
+  frame++;
+  if(playing && started && !isDead){
+    birdV+=gravity; birdY+=birdV; groundOffset+=3.4;
+    if(frame%92===0) addGate();
+    for(let p of gates){p.x-=3.1; p.pulse+=0.08; if(!p.passed && p.x+p.w < birdX){p.passed=true;score++;playScore();document.getElementById('fScore').innerText=score;document.getElementById('fBig').innerText=score;if(score>best){best=score;localStorage.setItem('zaki_flappy_best',best);document.getElementById('fBest').innerText=best;} if(score===15) playWin();}}
+    gates=gates.filter(p=>p.x>-120);
+    if(frame%4===0){let f=getFeet(); particles.push({x:f.x+(Math.random()-0.5)*6,y:f.y,vx:(Math.random()-0.5)*0.8,vy:1.5+Math.random()*1.5,life:0.7,size:4+Math.random()*5,type:'smoke'});}
+    if(birdY+44>H-62 || birdY-40<0){gameOver();}
+    for(let p of gates){if(birdX+28>p.x && birdX-28<p.x+p.w){if(birdY-30 < p.top || birdY+42 > p.top+p.gap) gameOver();}}
   }
-  if(low.includes('тариф') || low.includes('цен') || low.includes('139') || low.includes('399') || low.includes('699') || low.includes('сколько')){
-    bubble.textContent='💳 Тарифы HS1VPN:\n\n1 месяц - 139р\n3 месяца - 399р\n6 месяцев - 699р\n\nОплата только в приложении!\nДиректор: @HS1family\nКанал: @HS1group';
-    return;
+  fCtx.fillStyle='#080808'; fCtx.fillRect(0,0,W,H);
+  fCtx.fillStyle='#0c0c0d'; for(let x=0;x<W;x+=22){ fCtx.fillRect(x,0,10,H); }
+  fCtx.fillStyle='#161617'; for(let x=11;x<W;x+=22){ fCtx.fillRect(x,0,1,H); }
+  let glow=fCtx.createRadialGradient(W/2,H+20,10,W/2,H+20,280);
+  glow.addColorStop(0,'rgba(255,120,30,0.55)'); glow.addColorStop(0.5,'rgba(255,110,0,0.18)'); glow.addColorStop(1,'rgba(0,0,0,0)');
+  fCtx.fillStyle=glow; fCtx.fillRect(0,0,W,H);
+  for(let p of gates){ drawGate(p.x, p.top, p.w, p.gap, p.pulse); }
+  function drawGate(x, topH, w, gap, pulse){
+    let bottomY = topH+gap;
+    drawOneGate(x, -10, w, topH+10, true, pulse);
+    drawOneGate(x, bottomY, w, H-bottomY, false, pulse);
+    let midY = topH + gap/2;
+    fCtx.save();
+    fCtx.globalAlpha = 0.35 + Math.sin(pulse)*0.15;
+    fCtx.strokeStyle='rgba(255,170,90,0.4)'; fCtx.setLineDash([6,8]); fCtx.lineWidth=1.5;
+    fCtx.beginPath(); fCtx.moveTo(x+w/2, topH); fCtx.lineTo(x+w/2, bottomY); fCtx.stroke();
+    fCtx.setLineDash([]);
+    let dotGrad=fCtx.createRadialGradient(x+w/2, midY, 1, x+w/2, midY, 18);
+    dotGrad.addColorStop(0,'rgba(255,220,150,0.9)'); dotGrad.addColorStop(1,'rgba(255,120,0,0)');
+    fCtx.fillStyle=dotGrad; fCtx.beginPath(); fCtx.arc(x+w/2, midY, 14, 0, Math.PI*2); fCtx.fill();
+    fCtx.restore();
   }
-  if(low.includes('бесплатно') || low.includes('5 гб') || low.includes('5гб') || low.includes('регистр')){
-    bubble.innerHTML='🎁 5ГБ бесплатно - легко!<br><br>1. Скачай приложение<br>2. Внизу справа кнопка АККАУНТ<br>3. Нажми Зарегистрироваться<br>4. Введи Email и пароль<br>Готово, 5ГБ твои!';
-    return;
+  function drawOneGate(x, y, w, h, isTop, pulse){
+    let r=18;
+    fCtx.save();
+    fCtx.shadowColor='rgba(255,120,0,0.55)'; fCtx.shadowBlur=22;
+    let g=fCtx.createLinearGradient(x,0,x+w,0);
+    g.addColorStop(0,'rgba(25,22,18,0.96)'); g.addColorStop(0.25,'rgba(255,255,255,0.14)'); g.addColorStop(0.5,'rgba(255,255,255,0.05)'); g.addColorStop(1,'rgba(10,10,10,0.98)');
+    roundRect(x,y,w,h,r); fCtx.fillStyle=g; fCtx.fill();
+    fCtx.restore();
+    fCtx.save();
+    roundRect(x,y,w,h,r); fCtx.strokeStyle='rgba(255,170,90,0.95)'; fCtx.lineWidth=1.6; fCtx.stroke();
+    fCtx.restore();
+    let capH=52, capW=w+16, capX=x-8, capY=isTop?y+h-capH:y;
+    fCtx.save();
+    fCtx.shadowColor='rgba(255,120,0,0.65)'; fCtx.shadowBlur=16;
+    let capGrad=fCtx.createLinearGradient(capX,0,capX+capW,0);
+    capGrad.addColorStop(0,'rgba(255,255,255,0.18)'); capGrad.addColorStop(0.4,'rgba(255,150,50,0.35)'); capGrad.addColorStop(1,'rgba(0,0,0,0.5)');
+    roundRect(capX,capY,capW,capH,14); fCtx.fillStyle=capGrad; fCtx.fill();
+    fCtx.strokeStyle='rgba(255,180,100,1)'; fCtx.lineWidth=1.5; fCtx.stroke();
+    fCtx.restore();
+    fCtx.save();
+    fCtx.textAlign='center'; fCtx.textBaseline='middle';
+    fCtx.fillStyle='#FF8A00'; fCtx.beginPath(); fCtx.arc(capX+capW/2, capY+16, 9, 0, Math.PI*2); fCtx.fill();
+    fCtx.fillStyle='#000'; fCtx.font='800 10px Inter'; fCtx.fillText('⚡', capX+capW/2, capY+17);
+    fCtx.fillStyle='#FFB26B'; fCtx.font='800 10px Unbounded'; fCtx.fillText('HS1', capX+capW/2, capY+36);
+    fCtx.restore();
   }
-  if(low.includes('оплат') || low.includes('купить') || low.includes('не приш')){
-    bubble.textContent='⚠️ ВАЖНО при оплате!\n\nВ окне оплаты вводи ТОТ ЖЕ Email, который вводил при регистрации!\nЕсли другой Email - подписка не придет!\nОплата только в приложении.\nЕсли не пришло - пиши @HS1family с чеком.';
-    return;
-  }
-
-  // УМНЫЙ ИИ ЧЕРЕЗ RENDER + GROQ - КЛЮЧ СПРЯТАН, НЕ ЗАБАНЯТ!
-  try{
-    let r = await fetch(RENDER_URL + '/ask', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({q: q})
-    });
-    let j = await r.json();
-    bubble.textContent = j.answer || 'Бро, повтори?';
-  }catch(e){
-    // ЗАПАСНОЙ МОЗГ ЕСЛИ RENDER СПИТ - ЧТОБЫ ВСЕГДА ОТВЕЧАЛ
-    try{
-      let system = "Ты Zaki, помощник HS1VPN. Отвечай коротко, по-братски. HS1VPN: директор @HS1family, канал @HS1group, скачать https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk, тарифы 139р/399р/699р, 5ГБ бесплатно через регистрацию в приложении внизу справа АККАУНТ, при оплате тот же Email.";
-      let r2 = await fetch('https://text.pollinations.ai/'+encodeURIComponent(system+"\nВопрос: "+q));
-      let t = await r2.text();
-      bubble.textContent = t.trim();
-    }catch(e2){
-      bubble.textContent='Связь тупит, попробуй ещё раз! По HS1VPN пиши @HS1family';
+  function roundRect(x,y,w,h,r){ fCtx.beginPath(); fCtx.moveTo(x+r,y); fCtx.lineTo(x+w-r,y); fCtx.quadraticCurveTo(x+w,y,x+w,y+r); fCtx.lineTo(x+w,y+h-r); fCtx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); fCtx.lineTo(x+r,y+h); fCtx.quadraticCurveTo(x,y+h,x,y+h-r); fCtx.lineTo(x,y+r); fCtx.quadraticCurveTo(x,y,x+r,y); fCtx.closePath(); }
+  let groundY=H-62;
+  fCtx.fillStyle='#0a0a0a'; fCtx.fillRect(0,groundY,W,62);
+  fCtx.fillStyle='rgba(255,170,90,0.7)'; fCtx.fillRect(0,groundY,W,2);
+  for(let i=particles.length-1;i>=0;i--){
+    let pt=particles[i]; pt.x+=pt.vx; pt.y+=pt.vy; pt.life-=0.028; pt.size*=0.97;
+    if(pt.life<=0){particles.splice(i,1);continue;}
+    if(pt.type==='fire'){
+      let fg=fCtx.createRadialGradient(pt.x,pt.y,1,pt.x,pt.y,pt.size);
+      fg.addColorStop(0,'rgba(255,245,200,'+pt.life+')');
+      fg.addColorStop(0.35,'rgba(255,160,20,'+(pt.life*0.95)+')');
+      fg.addColorStop(1,'rgba(255,40,0,0)');
+      fCtx.fillStyle=fg; fCtx.beginPath(); fCtx.arc(pt.x,pt.y,pt.size,0,Math.PI*2); fCtx.fill();
+    } else {
+      fCtx.fillStyle='rgba(255,255,255,'+(pt.life*0.4)+')'; fCtx.beginPath(); fCtx.arc(pt.x,pt.y,pt.size*0.65,0,Math.PI*2); fCtx.fill();
     }
   }
-  msgs.scrollTop=msgs.scrollHeight;
+  if(!isDead || deadAlpha>0){
+    let rot = isDead ? 0.6 : Math.max(-0.15, Math.min(0.25, birdV*0.02));
+    fCtx.save();
+    fCtx.globalAlpha = deadAlpha;
+    fCtx.translate(birdX,birdY);
+    fCtx.rotate(rot);
+    fCtx.shadowColor='rgba(255,120,0,0.75)'; fCtx.shadowBlur=20;
+    let img=(imgZaki.complete && imgZaki.naturalWidth>0)?imgZaki:imgFallback;
+    if(img.complete && img.naturalWidth>0){
+      fCtx.drawImage(img,-44,-48,88,96);
+    }
+    fCtx.restore();
+    if(started && playing && !isDead){
+      let f=getFeet();
+      let flameLen=20+Math.random()*18;
+      fCtx.save(); fCtx.translate(f.x,f.y);
+      let fl=fCtx.createLinearGradient(0,0,0,flameLen);
+      fl.addColorStop(0,'rgba(255,240,180,0.98)'); fl.addColorStop(0.35,'rgba(255,140,0,0.9)'); fl.addColorStop(1,'rgba(255,50,0,0)');
+      fCtx.fillStyle=fl;
+      fCtx.beginPath(); fCtx.moveTo(-8,0); fCtx.lineTo(0,flameLen); fCtx.lineTo(8,0); fCtx.closePath(); fCtx.fill();
+      fCtx.restore();
+    }
+  }
+  if(!started && playing){
+    fCtx.fillStyle='#fff'; fCtx.font='900 22px Unbounded'; fCtx.textAlign='center'; fCtx.shadowColor='rgba(255,120,0,0.6)'; fCtx.shadowBlur=16; fCtx.fillText('ТАПАЙ!',W/2,H*0.28); fCtx.shadowBlur=0;
+  }
 }
-
-function quick(t){ inp.value=t; askZaki(); }
-inp.addEventListener('keydown', e=>{ if(e.key==='Enter') askZaki(); });
+function gameOver(){
+  if(isDead) return;
+  isDead=true; playing=false;
+  playHit();
+  for(let i=0;i<36;i++) particles.push({x:birdX,y:birdY,vx:(Math.random()-0.5)*9,vy:(Math.random()-0.5)*9,life:1,size:6+Math.random()*10,type:'fire'});
+  let fade=setInterval(()=>{ deadAlpha-=0.09; if(deadAlpha<=0){ deadAlpha=0; clearInterval(fade); } },30);
+  if(score>=15){
+    playWin();
+    let ch=makeCheck(score);
+    document.getElementById('fPromo').innerHTML='🏆 '+score+' врат! ЛЕГЕНДА!<br>Чек: <b style="color:#FFB26B">'+ch+'</b><br><button onclick="navigator.clipboard.writeText(\''+ch+'\');this.innerText=\'Скопировано ✓\'" style="background:#FF9A35;border:0;padding:8px 14px;border-radius:12px;font-weight:800;margin-top:6px;cursor:pointer">КОПИРОВАТЬ ЧЕК</button>';
+  } else {
+    document.getElementById('fPromo').innerHTML='💥 '+score+' врат. Нужно 15 для чека. Тапай ГАЗ чтобы еще раз!';
+  }
+}
+setInterval(()=>{if(document.getElementById('flappyOverlay').classList.contains('show')) drawFlappy();},1000/60);
+window.addEventListener('resize',()=>{if(document.getElementById('flappyOverlay').classList.contains('show')) fResize();});
+fResize();
 </script>
 </body>
 </html>
