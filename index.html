@@ -2,39 +2,44 @@
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
 <title>Zaki</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Great+Vibes&family=Unbounded:wght@600;800&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#050505;font-family:'Inter',sans-serif;display:flex;justify-content:center;min-height:100dvh;color:#fff;overflow:hidden}
-.chat{position:relative;width:100%;max-width:430px;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),#000}
+html,body{height:100%}
+body{background:#050505;font-family:'Inter',sans-serif;display:flex;justify-content:center;color:#fff;overflow:hidden}
+.chat{position:relative;width:100%;max-width:430px;height:100dvh;display:flex;flex-direction:column;overflow:hidden;background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),#000}
 .chat:before{content:'';position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.42),transparent 55%)}
 .chat>*{position:relative;z-index:1}
-.head{margin:28px 18px 0;padding:16px 18px;display:flex;align-items:center;gap:15px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));backdrop-filter:blur(28px);border-radius:26px;border:1.2px solid rgba(255,170,90,.85)}
-.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;background:#222;flex-shrink:0;border:1px solid rgba(255,140,0,.5);box-shadow:0 0 24px rgba(255,120,0,.8)}
+.head{margin:14px 18px 0;padding:14px 18px;display:flex;align-items:center;gap:15px;background:linear-gradient(135deg,rgba(255,255,255,.16),rgba(255,255,255,.05));backdrop-filter:blur(28px);border-radius:26px;border:1.2px solid rgba(255,170,90,.85);flex-shrink:0}
+.avatar{width:62px;height:62px;border-radius:50%;object-fit:cover;background:transparent;flex-shrink:0;border:1px solid rgba(255,140,0,.5);box-shadow:0 0 24px rgba(255,120,0,.8)}
 .info{flex:1}.info h1{font-size:26px;font-weight:600}.info .st{font-size:15px;margin-top:6px;color:#D8D8DE}.info .st b{color:#FF9B4A}
-#msgs{flex:1;overflow-y:auto;padding:42px 14px 14px 18px;display:flex;flex-direction:column;gap:24px}
+#msgs{flex:1;overflow-y:auto;padding:20px 14px 14px 18px;display:flex;flex-direction:column;gap:24px;overscroll-behavior:contain}
 .row{display:flex;gap:12px;align-items:flex-start;max-width:88%}
-.mini{width:52px;height:52px;min-width:52px;border-radius:50%;object-fit:cover;background:#222;box-shadow:0 0 18px rgba(255,120,0,.65);border:1px solid rgba(255,140,0,.4)}
-.msg{padding:19px 20px;font-size:16.5px;line-height:1.55;border-radius:26px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));backdrop-filter:blur(22px);border:1.2px solid rgba(255,170,90,.75)}
-.msg.user{align-self:flex-end;margin-left:auto}
+.mini{width:52px;height:52px;min-width:52px;border-radius:50%;object-fit:cover;background:transparent;box-shadow:0 0 18px rgba(255,120,0,.65);border:1px solid rgba(255,140,0,.4)}
+.msg{padding:19px 20px;font-size:16.5px;line-height:1.55;border-radius:26px;background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.05));backdrop-filter:blur(22px);border:1.2px solid rgba(255,170,90,.75);white-space:pre-wrap;word-break:break-word}
+.msg.user{align-self:flex-end;margin-left:auto;background:linear-gradient(135deg,#FF9A35,#FF6A00);color:#000;border:0;font-weight:600}
+.msg a{color:#FFB26B;word-break:break-all}
+.msg.user a{color:#000}
 .empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-bottom:10px}
 .blobStage{width:150px;height:150px;position:relative}
 .blob{width:118px;height:118px;position:absolute;top:16px;left:16px;background:transparent;border-radius:42% 58% 55% 45% / 48% 42% 58% 52%;animation:blobMorph 5s ease-in-out infinite;box-shadow:0 0 32px rgba(255,120,0,.45);border:1px solid rgba(255,140,0,.5);overflow:hidden}
-.blob img{width:100%;height:100%;object-fit:cover;display:block}
+.blob img{width:100%;height:100%;object-fit:cover;display:block;background:transparent}
 @keyframes blobMorph{0%,100%{border-radius:42% 58% 55% 45% / 48% 42% 58% 52%}33%{border-radius:58% 42% 45% 55% / 52% 58% 42% 48%}66%{border-radius:48% 52% 60% 40% / 45% 55% 48% 52%}}
 .blobShadow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:14px;background:rgba(0,0,0,.5);border-radius:50%;filter:blur(8px)}
 .salam{font-family:'Great Vibes',cursive;font-size:32px;line-height:1;margin-top:14px;background:linear-gradient(135deg,#FFE8C2,#FF9A35,#FF6A00);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;transform:rotate(-2deg)}
 .empty h2{font-size:27px;font-weight:600;margin-top:2px}
 .empty p{font-size:14.5px;color:#A8A8B0;margin-top:8px}
 .glassHint{margin-top:14px;padding:10px 16px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.4);font-size:13px;cursor:pointer}
-.bottom{padding:12px 18px 26px}
+.bottom{padding:10px 18px calc(12px + env(safe-area-inset-bottom));flex-shrink:0;background:linear-gradient(to top, #050505 60%, transparent)}
 .inputWrap{display:flex;align-items:center;gap:12px;padding:6px 6px 6px 22px;border-radius:100px;background:linear-gradient(135deg,rgba(255,255,255,.11),rgba(255,255,255,.04));border:1.2px solid rgba(255,170,90,.75)}
 .inputWrap input{flex:1;background:transparent;border:none;outline:none;color:#fff;font-size:16.5px;padding:15px 0}
 .send{width:52px;height:52px;min-width:52px;border-radius:50%;background:linear-gradient(135deg,#FF9A35,#FF6A00);border:none;color:#fff;font-size:19px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-.chips{display:flex;gap:8px;padding:0 18px 12px;flex-wrap:wrap}
+.chips{display:flex;gap:8px;padding:0 18px 10px;flex-wrap:wrap;flex-shrink:0}
 .chips span{font-size:13px;padding:10px 14px;border-radius:100px;background:rgba(255,255,255,.07);border:1px solid rgba(255,170,90,.45);cursor:pointer}
+.typing{display:flex;gap:5px;padding:4px 2px}.typing i{width:8px;height:8px;border-radius:50%;background:#FF9A35;animation:tp 1s infinite}.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,100%{opacity:.3;transform:translateY(0)}50%{opacity:1;transform:translateY(-4px)}}
 #flappyOverlay{position:absolute;inset:0;z-index:100;display:none;flex-direction:column;background:#000}
 #flappyOverlay:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(90deg,#0c0c0d 0px,#0c0c0d 10px,#161617 11px,#161617 12px,#080808 13px,#080808 22px),radial-gradient(ellipse at 50% 110%,rgba(255,120,30,.45),transparent 55%)}
 #flappyOverlay>*{position:relative;z-index:1}
@@ -98,17 +103,43 @@ function hideEmpty(){if(emptyDiv)emptyDiv.style.display='none'}
 function addMsg(t,w){
   hideEmpty();
   if(w==='user'){let d=document.createElement('div');d.className='msg user';d.textContent=t;msgs.appendChild(d);}
-  else{let r=document.createElement('div');r.className='row';r.innerHTML=`<img class="mini" src="zaki.jpg" onerror="this.src='zaki.png'"><div class="msg"></div>`;r.querySelector('.msg').textContent=t;msgs.appendChild(r);r.querySelector('.msg').innerHTML=t.replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank">$1</a>');}
+  else{let r=document.createElement('div');r.className='row';r.innerHTML=`<img class="mini" src="zaki.jpg" onerror="this.src='zaki.png'"><div class="msg"></div>`;let m=r.querySelector('.msg');m.textContent=t;m.innerHTML=t.replace(/(https?:\/\/[^\s]+)/g,'<a href="$1" target="_blank">$1</a>');msgs.appendChild(r);}
   msgs.scrollTop=msgs.scrollHeight;
 }
 function addTyping(){hideEmpty();let r=document.createElement('div');r.className='row';r.innerHTML=`<img class="mini" src="zaki.jpg"><div class="msg"><div class="typing"><i></i><i></i><i></i></div></div>`;msgs.appendChild(r);msgs.scrollTop=msgs.scrollHeight;return r;}
-async function askZaki(){let q=inp.value.trim();if(!q)return;addMsg(q,'user');inp.value='';let tr=addTyping();let low=q.toLowerCase();
-if(low.includes('скачать')){setTimeout(()=>{tr.remove();let b=addMsg('','bot');b.innerHTML='📲 Скачать HS1VPN:<br><br><a href="https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk" target="_blank">https://github.com/safarovclub-ops/HS1VPN/releases/download/v1.0/HSOneVPN12.apk</a>';},600);return;}
-if(low.includes('тариф')){setTimeout(()=>{tr.remove();addMsg('💳 Тарифы:\n1 мес - 139р\n3 мес - 399р\n6 мес - 699р\n@HS1family','bot');},500);return;}
-if(low.includes('флаппи')||low.includes('игра')){setTimeout(()=>{tr.remove();let b=addMsg('','bot');b.innerHTML='🚀 Флаппи тут! <button onclick="openFlappy()" style="background:#FF8A00;border:0;padding:10px 16px;border-radius:20px;font-weight:800;cursor:pointer">ИГРАТЬ!</button>';},400);return;}
-try{let r=await fetch(RENDER_URL+'/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({q})});let j=await r.json();tr.remove();addMsg(j.answer||'Бро, повтори?','bot');}catch(e){tr.remove();addMsg('Связь тупит, пиши @HS1family','bot');}msgs.scrollTop=msgs.scrollHeight;}
+
+// === ИСПРАВЛЕННЫЙ askZaki - ТЕПЕРЬ ВСЁ ЧЕРЕЗ ZAKI ULTRA PRO ===
+async function askZaki(){
+  let q=inp.value.trim();if(!q)return;
+  addMsg(q,'user');inp.value='';
+  // держим поле на месте когда клава
+  setTimeout(()=>{inp.focus({preventScroll:true});},10);
+  let tr=addTyping();
+  let low=q.toLowerCase();
+  // Только игра локально, остальное всё в Groq
+  if(low.includes('флаппи')||low.includes('игра')||low.includes('flappy')){
+    setTimeout(()=>{tr.remove();let b=addMsg('','bot');b.innerHTML='🚀 Флаппи тут! <button onclick="openFlappy()" style="background:#FF8A00;border:0;padding:10px 16px;border-radius:20px;font-weight:800;cursor:pointer">ИГРАТЬ!</button>';},400);
+    return;
+  }
+  try{
+    let r=await fetch(RENDER_URL+'/ask',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({q})});
+    let j=await r.json();tr.remove();addMsg(j.answer||'Бро, повтори?','bot');
+  }catch(e){tr.remove();addMsg('Связь тупит, пиши @HS1family','bot');}
+  msgs.scrollTop=msgs.scrollHeight;
+}
 function quick(t){inp.value=t;askZaki();}
-inp.addEventListener('keydown',e=>{if(e.key==='Enter')askZaki();});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();askZaki();}});
+// === ЧТОБЫ ПОЛЕ НЕ УБЕГАЛО НА ТЕЛЕФОНЕ ===
+if(window.visualViewport){
+  const vv=window.visualViewport;
+  function fixH(){
+    document.querySelector('.chat').style.height=vv.height+'px';
+    msgs.scrollTop=msgs.scrollHeight;
+  }
+  vv.addEventListener('resize',fixH); vv.addEventListener('scroll',fixH);
+  fixH();
+}
+inp.addEventListener('focus',()=>{setTimeout(()=>{msgs.scrollTop=msgs.scrollHeight;},300)});
 
 // === ЗВУКИ - БЕЗ ФАЙЛОВ, ЧИСТЫЙ WEB AUDIO ===
 let audioCtx=null, soundOn=true;
@@ -127,7 +158,6 @@ function playFlap(){
   if(!soundOn) return;
   try{
     let ctx=getAudio(), t=ctx.currentTime;
-    // шум газа - как ракета
     let bufferSize=ctx.sampleRate*0.25;
     let buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
     let data=buffer.getChannelData(0);
@@ -136,7 +166,6 @@ function playFlap(){
     let filter=ctx.createBiquadFilter(); filter.type='lowpass'; filter.frequency.setValueAtTime(1800,t); filter.frequency.exponentialRampToValueAtTime(300,t+0.22);
     let gain=ctx.createGain(); gain.gain.setValueAtTime(0.45,t); gain.gain.exponentialRampToValueAtTime(0.001,t+0.25);
     noise.connect(filter); filter.connect(gain); gain.connect(ctx.destination); noise.start(t);
-    // свист вверх
     let osc=ctx.createOscillator(); osc.type='sine'; osc.frequency.setValueAtTime(350,t); osc.frequency.exponentialRampToValueAtTime(750,t+0.18);
     let og=ctx.createGain(); og.gain.setValueAtTime(0.12,t); og.gain.exponentialRampToValueAtTime(0.001,t+0.2);
     osc.connect(og); og.connect(ctx.destination); osc.start(t); osc.stop(t+0.2);
@@ -151,7 +180,6 @@ function playScore(){
       let g=ctx.createGain(); g.gain.setValueAtTime(0.0001,t+i*0.07); g.gain.exponentialRampToValueAtTime(0.28,t+i*0.07+0.02); g.gain.exponentialRampToValueAtTime(0.001,t+i*0.07+0.18);
       osc.connect(g); g.connect(ctx.destination); osc.start(t+i*0.07); osc.stop(t+i*0.07+0.2);
     });
-    // монетка HS1
     let o2=ctx.createOscillator(); o2.type='triangle'; o2.frequency.setValueAtTime(1760,t); o2.frequency.setValueAtTime(1760,t+0.12);
     let g2=ctx.createGain(); g2.gain.setValueAtTime(0.12,t+0.08); g2.gain.exponentialRampToValueAtTime(0.001,t+0.22);
     o2.connect(g2); g2.connect(ctx.destination); o2.start(t+0.08); o2.stop(t+0.24);
@@ -161,11 +189,9 @@ function playHit(){
   if(!soundOn) return;
   try{
     let ctx=getAudio(), t=ctx.currentTime;
-    // БУМ
     let osc=ctx.createOscillator(); osc.type='sawtooth'; osc.frequency.setValueAtTime(160,t); osc.frequency.exponentialRampToValueAtTime(40,t+0.35);
     let g=ctx.createGain(); g.gain.setValueAtTime(0.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.4);
     osc.connect(g); g.connect(ctx.destination); osc.start(t); osc.stop(t+0.4);
-    // шум взрыва
     let bufferSize=ctx.sampleRate*0.4;
     let buffer=ctx.createBuffer(1,bufferSize,ctx.sampleRate);
     let data=buffer.getChannelData(0);
@@ -239,107 +265,33 @@ function drawFlappy(){
   fCtx.fillStyle=glow; fCtx.fillRect(0,0,W,H);
   for(let p of gates){ drawGate(p.x, p.top, p.w, p.gap, p.pulse); }
   function drawGate(x, topH, w, gap, pulse){
-    let bottomY = topH+gap;
-    drawOneGate(x, -10, w, topH+10, true, pulse);
-    drawOneGate(x, bottomY, w, H-bottomY, false, pulse);
-    let midY = topH + gap/2;
-    fCtx.save();
-    fCtx.globalAlpha = 0.35 + Math.sin(pulse)*0.15;
-    fCtx.strokeStyle='rgba(255,170,90,0.4)'; fCtx.setLineDash([6,8]); fCtx.lineWidth=1.5;
-    fCtx.beginPath(); fCtx.moveTo(x+w/2, topH); fCtx.lineTo(x+w/2, bottomY); fCtx.stroke();
-    fCtx.setLineDash([]);
-    let dotGrad=fCtx.createRadialGradient(x+w/2, midY, 1, x+w/2, midY, 18);
-    dotGrad.addColorStop(0,'rgba(255,220,150,0.9)'); dotGrad.addColorStop(1,'rgba(255,120,0,0)');
-    fCtx.fillStyle=dotGrad; fCtx.beginPath(); fCtx.arc(x+w/2, midY, 14, 0, Math.PI*2); fCtx.fill();
-    fCtx.restore();
+    let grad=fCtx.createLinearGradient(x,0,x+w,0);
+    grad.addColorStop(0,'#FF8A00'); grad.addColorStop(1,'#FF6A00');
+    fCtx.fillStyle=grad;
+    fCtx.fillRect(x,0,w,topH);
+    fCtx.fillRect(x,topH+gap,w,H-(topH+gap)-62);
+    fCtx.fillStyle='rgba(255,255,255,0.18)'; fCtx.fillRect(x,0,3,topH); fCtx.fillRect(x,topH+gap,3,H-(topH+gap)-62);
   }
-  function drawOneGate(x, y, w, h, isTop, pulse){
-    let r=18;
-    fCtx.save();
-    fCtx.shadowColor='rgba(255,120,0,0.55)'; fCtx.shadowBlur=22;
-    let g=fCtx.createLinearGradient(x,0,x+w,0);
-    g.addColorStop(0,'rgba(25,22,18,0.96)'); g.addColorStop(0.25,'rgba(255,255,255,0.14)'); g.addColorStop(0.5,'rgba(255,255,255,0.05)'); g.addColorStop(1,'rgba(10,10,10,0.98)');
-    roundRect(x,y,w,h,r); fCtx.fillStyle=g; fCtx.fill();
-    fCtx.restore();
-    fCtx.save();
-    roundRect(x,y,w,h,r); fCtx.strokeStyle='rgba(255,170,90,0.95)'; fCtx.lineWidth=1.6; fCtx.stroke();
-    fCtx.restore();
-    let capH=52, capW=w+16, capX=x-8, capY=isTop?y+h-capH:y;
-    fCtx.save();
-    fCtx.shadowColor='rgba(255,120,0,0.65)'; fCtx.shadowBlur=16;
-    let capGrad=fCtx.createLinearGradient(capX,0,capX+capW,0);
-    capGrad.addColorStop(0,'rgba(255,255,255,0.18)'); capGrad.addColorStop(0.4,'rgba(255,150,50,0.35)'); capGrad.addColorStop(1,'rgba(0,0,0,0.5)');
-    roundRect(capX,capY,capW,capH,14); fCtx.fillStyle=capGrad; fCtx.fill();
-    fCtx.strokeStyle='rgba(255,180,100,1)'; fCtx.lineWidth=1.5; fCtx.stroke();
-    fCtx.restore();
-    fCtx.save();
-    fCtx.textAlign='center'; fCtx.textBaseline='middle';
-    fCtx.fillStyle='#FF8A00'; fCtx.beginPath(); fCtx.arc(capX+capW/2, capY+16, 9, 0, Math.PI*2); fCtx.fill();
-    fCtx.fillStyle='#000'; fCtx.font='800 10px Inter'; fCtx.fillText('⚡', capX+capW/2, capY+17);
-    fCtx.fillStyle='#FFB26B'; fCtx.font='800 10px Unbounded'; fCtx.fillText('HS1', capX+capW/2, capY+36);
-    fCtx.restore();
-  }
-  function roundRect(x,y,w,h,r){ fCtx.beginPath(); fCtx.moveTo(x+r,y); fCtx.lineTo(x+w-r,y); fCtx.quadraticCurveTo(x+w,y,x+w,y+r); fCtx.lineTo(x+w,y+h-r); fCtx.quadraticCurveTo(x+w,y+h,x+w-r,y+h); fCtx.lineTo(x+r,y+h); fCtx.quadraticCurveTo(x,y+h,x,y+h-r); fCtx.lineTo(x,y+r); fCtx.quadraticCurveTo(x,y,x+r,y); fCtx.closePath(); }
-  let groundY=H-62;
-  fCtx.fillStyle='#0a0a0a'; fCtx.fillRect(0,groundY,W,62);
-  fCtx.fillStyle='rgba(255,170,90,0.7)'; fCtx.fillRect(0,groundY,W,2);
-  for(let i=particles.length-1;i>=0;i--){
-    let pt=particles[i]; pt.x+=pt.vx; pt.y+=pt.vy; pt.life-=0.028; pt.size*=0.97;
-    if(pt.life<=0){particles.splice(i,1);continue;}
-    if(pt.type==='fire'){
-      let fg=fCtx.createRadialGradient(pt.x,pt.y,1,pt.x,pt.y,pt.size);
-      fg.addColorStop(0,'rgba(255,245,200,'+pt.life+')');
-      fg.addColorStop(0.35,'rgba(255,160,20,'+(pt.life*0.95)+')');
-      fg.addColorStop(1,'rgba(255,40,0,0)');
-      fCtx.fillStyle=fg; fCtx.beginPath(); fCtx.arc(pt.x,pt.y,pt.size,0,Math.PI*2); fCtx.fill();
-    } else {
-      fCtx.fillStyle='rgba(255,255,255,'+(pt.life*0.4)+')'; fCtx.beginPath(); fCtx.arc(pt.x,pt.y,pt.size*0.65,0,Math.PI*2); fCtx.fill();
-    }
-  }
-  if(!isDead || deadAlpha>0){
-    let rot = isDead ? 0.6 : Math.max(-0.15, Math.min(0.25, birdV*0.02));
-    fCtx.save();
-    fCtx.globalAlpha = deadAlpha;
-    fCtx.translate(birdX,birdY);
-    fCtx.rotate(rot);
-    fCtx.shadowColor='rgba(255,120,0,0.75)'; fCtx.shadowBlur=20;
-    let img=(imgZaki.complete && imgZaki.naturalWidth>0)?imgZaki:imgFallback;
-    if(img.complete && img.naturalWidth>0){
-      fCtx.drawImage(img,-44,-48,88,96);
-    }
-    fCtx.restore();
-    if(started && playing && !isDead){
-      let f=getFeet();
-      let flameLen=20+Math.random()*18;
-      fCtx.save(); fCtx.translate(f.x,f.y);
-      let fl=fCtx.createLinearGradient(0,0,0,flameLen);
-      fl.addColorStop(0,'rgba(255,240,180,0.98)'); fl.addColorStop(0.35,'rgba(255,140,0,0.9)'); fl.addColorStop(1,'rgba(255,50,0,0)');
-      fCtx.fillStyle=fl;
-      fCtx.beginPath(); fCtx.moveTo(-8,0); fCtx.lineTo(0,flameLen); fCtx.lineTo(8,0); fCtx.closePath(); fCtx.fill();
-      fCtx.restore();
-    }
-  }
-  if(!started && playing){
-    fCtx.fillStyle='#fff'; fCtx.font='900 22px Unbounded'; fCtx.textAlign='center'; fCtx.shadowColor='rgba(255,120,0,0.6)'; fCtx.shadowBlur=16; fCtx.fillText('ТАПАЙ!',W/2,H*0.28); fCtx.shadowBlur=0;
-  }
+  for(let i=particles.length-1;i>=0;i--){let pt=particles[i];pt.x+=pt.vx;pt.y+=pt.vy;pt.life-=0.03;if(pt.life<=0){particles.splice(i,1);continue;}fCtx.globalAlpha=pt.life;if(pt.type==='fire'){fCtx.fillStyle='#FF8A00';}else{fCtx.fillStyle='rgba(255,255,255,0.35)';}fCtx.beginPath();fCtx.arc(pt.x,pt.y,pt.size*pt.life,0,Math.PI*2);fCtx.fill();fCtx.globalAlpha=1;}
+  let scale=1+Math.sin(frame*0.2)*0.03;
+  fCtx.save(); fCtx.translate(birdX,birdY); fCtx.rotate(Math.max(-0.4,Math.min(0.5,birdV*0.04))); fCtx.scale(scale,scale);
+  let img=(imgZaki.complete && imgZaki.naturalWidth>0)?imgZaki:imgFallback;
+  fCtx.drawImage(img,-34,-34,68,68);
+  fCtx.restore();
+  fCtx.fillStyle='#111'; fCtx.fillRect(0,H-62,W,62);
+  fCtx.fillStyle='#FF8A00'; fCtx.fillRect(0,H-62,W,3);
+  fCtx.fillStyle='#1a1a1a'; for(let x=-(groundOffset%24);x<W;x+=24){fCtx.fillRect(x,H-40,14,18);}
+  if(!started && !isDead){fCtx.fillStyle='rgba(255,255,255,0.9)';fCtx.font='700 16px Inter';fCtx.textAlign='center';fCtx.fillText('ТАПНИ - ЛЕТИМ!',W/2,H*0.22);}
+  if(isDead){fCtx.fillStyle=`rgba(0,0,0,${1-deadAlpha})`;fCtx.fillRect(0,0,W,H);fCtx.fillStyle='#fff';fCtx.font='800 26px Unbounded';fCtx.textAlign='center';fCtx.fillText('БУМ!',W/2,H*0.35);fCtx.font='600 14px Inter';fCtx.fillText('Счет: '+score,W/2,H*0.35+28);if(score>=15){fCtx.fillStyle='#FFB26B';fCtx.font='800 15px Inter';fCtx.fillText('ЧЕК: '+makeCheck(score),W/2,H*0.35+52);}}
+  requestAnimationFrame(drawFlappy);
 }
 function gameOver(){
-  if(isDead) return;
-  isDead=true; playing=false;
-  playHit();
-  for(let i=0;i<36;i++) particles.push({x:birdX,y:birdY,vx:(Math.random()-0.5)*9,vy:(Math.random()-0.5)*9,life:1,size:6+Math.random()*10,type:'fire'});
-  let fade=setInterval(()=>{ deadAlpha-=0.09; if(deadAlpha<=0){ deadAlpha=0; clearInterval(fade); } },30);
-  if(score>=15){
-    playWin();
-    let ch=makeCheck(score);
-    document.getElementById('fPromo').innerHTML='🏆 '+score+' врат! ЛЕГЕНДА!<br>Чек: <b style="color:#FFB26B">'+ch+'</b><br><button onclick="navigator.clipboard.writeText(\''+ch+'\');this.innerText=\'Скопировано ✓\'" style="background:#FF9A35;border:0;padding:8px 14px;border-radius:12px;font-weight:800;margin-top:6px;cursor:pointer">КОПИРОВАТЬ ЧЕК</button>';
-  } else {
-    document.getElementById('fPromo').innerHTML='💥 '+score+' врат. Нужно 15 для чека. Тапай ГАЗ чтобы еще раз!';
-  }
+  if(isDead) return; isDead=true; playHit(); deadAlpha=1;
+  let a=setInterval(()=>{deadAlpha-=0.05; if(deadAlpha<=0) clearInterval(a);},20);
+  setTimeout(()=>{playing=false;},600);
 }
-setInterval(()=>{if(document.getElementById('flappyOverlay').classList.contains('show')) drawFlappy();},1000/60);
-window.addEventListener('resize',()=>{if(document.getElementById('flappyOverlay').classList.contains('show')) fResize();});
-fResize();
+fResize(); drawFlappy();
+window.addEventListener('resize',fResize);
 </script>
 </body>
 </html>
